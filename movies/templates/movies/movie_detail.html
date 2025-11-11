@@ -1,0 +1,20 @@
+{% extends 'movies/base.html' %}
+
+{% block content %}
+    <div class="movie-detail">
+        <h1 class="detail-title">{{ movie.title }}</h1>
+        
+        <div class="detail-info">
+            <p><span class="detail-label">Género:</span> {{ movie.genre }}</p>
+            <p><span class="detail-label">Director:</span> {{ movie.director }}</p>
+            <p><span class="detail-label">Año de Publicación:</span> {{ movie.publication_year }}</p>
+        </div>
+        
+        <div class="synopsis">
+            <h3 style="margin-bottom: 1rem;">Sinopsis</h3>
+            <p>{{ movie.synopsis|linebreaks }}</p>
+        </div>
+        
+        <a href="{% url 'movies:movie_list' %}" class="back-button">← Volver al Catálogo</a>
+    </div>
+{% endblock %}
