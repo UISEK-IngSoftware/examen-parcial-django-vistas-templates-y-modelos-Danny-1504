@@ -1,19 +1,55 @@
 {% extends 'movies/base.html' %}
 
 {% block content %}
-    <h2 style="text-align: center; margin-bottom: 2rem;">Lista de Películas</h2>
+    <div class="page-header">
+        <h2>Catálogo de Películas</h2>
+        <a href="{% url 'movies:movie_create' %}" class="btn btn-primary">
+            ➕ Agregar Película
+        </a>
+    </div>
+    
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="message {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
     
     <div class="movie-list">
         {% for movie in movies %}
-            <a href="{% url 'movies:movie_detail' movie.id %}" class="movie-card">
-                <div class="movie-title">{{ movie.title }}</div>
-                <div class="movie-year">{{ movie.publication_year }}</div>
-                <div class="movie-year">Género: {{ movie.genre }}</div>
-            </a>
+            <div class="movie-card">
+                <div class="movie-content">
+                    <div class="movie-title">{{ movie.title }}</div>
+                    <div class="movie-info">
+                        <span class="movie-year">{{ movie.publication_year }}</span>
+                        <span class="movie-genre">{{ movie.genre }}</span>
+                        <span class="movie-director">{{ movie.director }}</span>
+                    </div>
+                    <div class="movie-synopsis-preview">
+                        {{ movie.synopsis|truncatewords:20 }}
+                    </div>
+                </div>
+                
+                <div class="movie-actions">
+                    <a href="{% url 'movies:movie_detail' movie.id %}" class="btn btn-view">
+                        👁️ Ver
+                    </a>
+                    <a href="{% url 'movies:movie_edit' movie.id %}" class="btn btn-edit">
+                    ✏️ Editar
+                    </a>
+                    <a href="{% url 'movies:movie_delete' movie.id %}" class="btn btn-delete">
+                        🗑️ Eliminar
+                    </a>
+                </div>
+            </div>
         {% empty %}
-            <p style="text-align: center; grid-column: 1 / -1;">
-                No hay películas en el catálogo.
-            </p>
+            <div class="no-movies">
+                <p>No hay películas en el catálogo.</p>
+                <a href="{% url 'movies:movie_create' %}" class="btn btn-primary">
+                    ➕ Agregar la primera película
+                </a>
+            </div>
         {% endfor %}
     </div>
 {% endblock %}
